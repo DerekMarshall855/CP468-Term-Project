@@ -10,13 +10,15 @@ populationSize = 1000
 mutateProb = 0.01
 retain = 0.1
 randRetain = 0.03
+lowBound = -5.12
+highBound = 5.12
 
 pop = Population(size=populationSize,
                  mutationProb=mutateProb,
                  retain=retain,
                  randRetain=randRetain,
-                 low=-5.12,
-                 high=5.12)
+                 low=lowBound,
+                 high=highBound)
 
 for i in range(GENS):
     pop.avg_fitness(gen=i)
