@@ -71,6 +71,9 @@ class Member:
             dSum += i
         return dSum
 
+    def compare_fitness(self, other):
+        return self.evaluate_fitness() < other.evaluate_fitness()
+
 
 class Population:
     """
@@ -181,9 +184,7 @@ class Population:
                 p2 = random.choice(self.parents)  # Choose 2 random parents
                 if p1 != p2:  # Cant be the same parent
                     # Try to implement without use of zip
-                    child_numbers = [random.choice(parent) for parent in zip(p1.data, p2.data)]
-                    child = Member(child_numbers)
-                    # child = self.cross_help(p1, p2)  # Create crossover of parents as child
+                    child = self.create_child(p1, p2)
                     children.append(child)
             self.members = self.parents + children
 
@@ -220,3 +221,33 @@ class Population:
         # Only works with reversed and reverse=True, idk why currently
         self.members = list(reversed(sorted(self.members, key=lambda k: k.evaluate_fitness(), reverse=True)))
         # self.members.sort(key=lambda k: k.evaluate_fitness(), reverse=False)
+
+    """
+    create_child
+    --------------------------------------------
+    Creates 2 children of parents, selects one with best fitness
+    --------------------------------------------
+    p1 - Member parent 1
+    p2 - Member parent 2
+    --------------------------------------------
+    return:
+        Member fittestChild
+    --------------------------------------------
+    USE:
+        newChild = self.create_child(p1, p2)
+    """
+    @staticmethod
+    def create_child(p1, p2):
+        dataLen = len(p1.data)
+        crossIndex = random.randint(1, dataLen)
+        c1 = list(p1.data)
+        c2 = list(p2.data)
+        for i in range(crossIndex, dataLen):
+            c1[i], c2[i] = c2[i], c1[i]
+
+        c1 = Member(c1)
+        c2 = Member(c2)
+        if c1.compare_fitness(c2):
+            return c1
+        else:
+            return c2
