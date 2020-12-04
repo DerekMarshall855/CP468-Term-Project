@@ -6,6 +6,12 @@ MEM_SIZE = 30
 
 
 class Member:
+    """
+    __init__
+    ---------------------------
+    Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
+    ---------------------------
+    """
     def __init__(self, data=None, mutationProb=0.01, lowBound=0, highBound=1):
         self.lowBound = lowBound
         self.highBound = highBound
@@ -71,6 +77,19 @@ class Member:
             dSum += i
         return dSum
 
+    """
+    compare_fitness
+    --------------------------------------------------
+    Compares self member and other member to see which is more fit
+    --------------------------------------------------
+    self, other
+    --------------------------------------------------
+    returns:
+        True if self is more fit, False otherwise
+    --------------------------------------------------
+    USE:
+        flag = self.compare_fitness(other)
+    """
     def compare_fitness(self, other):
         return self.evaluate_fitness() < other.evaluate_fitness()
 
