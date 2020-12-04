@@ -1,11 +1,20 @@
-# making sure github link works
-from genetic_algorithm import  Species
+# IMPORTS
+from genetic_algorithm import *
 
-individuals = [[1,2,3,4,5], [5,4,5,2,1], [3,1,1,2,3]]
-parents = [[5,4,5,2,1], [1,2,3,4,5]]
+# Max number of breed calls until giving up/settling (Settle at local max/min)
+GENS = 5000
 
-humans = Species(individuals)
-#print(humans.individuals[0])
-#print(humans.fitness)
-#humans.selection()
-humans.crossover(parents)
+populationSize = 1000
+mutateProb = 0.01
+retain = 0.1
+randRetain = 0.03
+
+pop = Population(size=populationSize, mutationProb=mutateProb, retain=retain, randRetain=randRetain, low=-5.12, high=5.12)
+
+for i in range(GENS):
+    pop.avg_fitness(gen=i)
+    pop.next_gen()
+
+    if pop.onTarget:
+        print("Finished at gen: ", i, ", Avg Population Fitness: ", pop.history[-1])
+        break

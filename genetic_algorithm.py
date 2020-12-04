@@ -1,92 +1,222 @@
 import random
-from math import floor
+import numpy
+
+TARGET_FITNESS = 0
+MEM_SIZE = 30
 
 
-def evaluate_fitness(chromosome):
-    return chromosome[2]
-    # function here
-
-
-class Species:
-
-    def __init__(self, subjects):
-        self.individuals = subjects
-        self.fitness = [] * len(subjects)
-        for i in subjects:
-            self.fitness.append(int(evaluate_fitness(i)))
-
-    """
-       selection
-       ------------------------------------------------
-       chooses a  set of parents based on their fitness scores
-       ------------------------------------------------
-       self - Access to the species of individuals
-       ------------------------------------------------
-       randomly creates a new list of parents with the intended highest fitness scores
-       ------------------------------------------------
-       object.selection
-    """
-    def selection(self):
-
-        totalfitness = 0
-        # this for loop calculates the total fitness score in order to calculate an individuals percentage later
-        for i in self.fitness:
-            totalfitness += i
-
-        selectionList = []
-        # this for loop goes throuhg every individual and clones it respective to its fitness in the new list
-        for individual in range(len(self.individuals)):
-            weight = floor((self.fitness[individual] / totalfitness) * 100)
-            # the weight of an individual is how many copies will be made in the list of that individual out of 100
-            weightedindividual = [self.individuals[individual]] * weight
-            # this for ensures there are no lists in the list, could be lambda
-            for i in weightedindividual:
-                selectionList.append(i)
-        # parents is the list with the now hopefully improved selection of individuals
-        # the amount of parents chosen is 2 for testing purposes, unknown what this number should be
-        parents = random.sample(selectionList, 2)
-        print(parents)
-        # parents will mate and create new children to be added to the population
+class Member:
+    def __init__(self, data=None, mutationProb=0.01, lowBound=0, highBound=1):
+        self.lowBound = lowBound
+        self.highBound = highBound
+        if data is not None:  # If given data, set data and perform mutation
+            self.data = data
+            if mutationProb > numpy.random.rand():
+                self.mutate()
+        else:  # Otherwise generate data for member
+            # Create list of MEM_SIZE with val between lower and upper bounds
+            self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
 
     """
-       crossover
-       ------------------------------------------------
-       matches all options of the parents together and randomly creates new offspring
-       ------------------------------------------------
-       self - Access to the species of individuals
-       parents - the list of parents that will be matched
-       ------------------------------------------------
-       randomly creates children that will be added to the population
-       ------------------------------------------------
-       Use: object.crossover(parents)
+    mutate
+    ------------------------------------
+    Mutates one item in the list at random
+    ------------------------------------
+    self
+    ------------------------------------
+    returns:
+    ------------------------------------
+    USE:
+        member.mutate()
     """
-    def crossover(self, parents):
-        children = []
-        newindividuals = []
-
-        # the two for loops go trough every possibility of parents and make children with them
-        for i in range(len(parents)):
-            for j in range(i + 1, len(parents)):
-                # split can happen anywhere in the range of the individual
-                split = random.randint(0, len(parents[0]))
-                print(split)
-                x = 0
-                # this is where children are made. initially copies of the parents
-                # their values get switched according to the split index
-                while x <= split and x< len(parents[0]):
-                    children = [parents[i], parents[j]]
-                    a = children[0][x]
-                    children[0][x] = children[1][x]
-                    children[1][x] = a
-                    x += 1
-                # checks if children are already possibly in the new individuals
-                for z in children:
-                    if z not in newindividuals:
-                        newindividuals.append(z)
-
-        print(newindividuals)
-        # these are added to self.individuals but for now they are printed
-
     def mutate(self):
-        print("mutating")
-        # randomly mutate here
+        i = numpy.random.randint(len(self.data) - 1)  # Select random index
+        # Bit flip
+        self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
+
+    """
+       evaluate_fitness
+       ------------------------------------------------
+       Returns the fitness score of a member, 0 is perfectly fit
+       ------------------------------------------------
+       self - Access to the Member
+       ------------------------------------------------
+        returns:
+            Difference between target fitness and actual fitness
+       ------------------------------------------------
+        USE:
+            mem.evaluate_fitness()
+        OR:
+            pop.members[i].evaluate_fitness()
+    """
+    def evaluate_fitness(self):
+        return abs(TARGET_FITNESS - self.sum_data())
+
+    """
+    sum_data
+    ------------------------------------------------
+    Sums the numbers in Member.data to estimate fitness
+    ------------------------------------------------
+    self
+    ------------------------------------------------
+    returns:
+        dSum - sum of numbers in self.data
+    ------------------------------------------------
+    USE:
+        fit = mem.sum_data()
+    """
+    def sum_data(self):
+        dSum = 0
+        for i in self.data:
+            dSum += i
+        return dSum
+
+
+class Population:
+    """
+    __init__
+    -------------------------------------
+    Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
+    onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
+    """
+    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
+        self.size = size
+        self.mutationProb = mutationProb
+        self.retain = retain
+        self.randRetain = randRetain
+        self.history = []
+        self.parents = []
+        self.children = []
+        self.onTarget = False
+
+        self.members = []
+        for i in range(size):  # Create size members with random data, mutationProb chance of mutating
+            self.members.append(Member(data=None, mutationProb=self.mutationProb, lowBound=low, highBound=high))
+
+    """
+    print_mem_sol
+    --------------------------------
+    Outputs member with perfect fitness
+    --------------------------------
+    self
+    --------------------------------
+    prints, no return
+    --------------------------------
+    USE:
+        pop.print_data()
+    """
+    def print_data(self):
+        self.sort_members()
+        print(self.members[0].data)
+
+    """
+    avg_fitness
+    ----------------------------------------
+    self
+    ----------------------------------------
+    return:
+        Average fitness of population
+    ----------------------------------------
+    Use: avg = pop.avg_fitness()
+    """
+    def avg_fitness(self, gen=None):
+        fitSum = 0
+        for i in self.members:
+            fitSum += i.evaluate_fitness()
+
+        avgFit = fitSum/self.size
+        self.history.append(avgFit)
+
+        if int(round(avgFit)) == 0:
+            self.onTarget = True
+            print("Member with best fitness: ", end="")
+            self.print_data()
+
+        if gen is not None:
+            if gen % 10 == 0:  # Check status every 10 generations
+                print("Gen #: ", gen, " avgFitness: ", avgFit)
+
+        return avgFit
+
+    """
+    select_parents
+    ----------------------------------------
+    Selects parents of next generation
+    ----------------------------------------
+    self
+    ----------------------------------------
+    return:
+    ----------------------------------------
+    Use: pop.select_parents()
+    """
+    def select_parents(self):
+        # Sort members by fitness (reverse order aka: most fit at index 0)
+        self.sort_members()
+        # Select top self.retain % of members to keep as parents
+        retainParents = self.retain * len(self.members)
+        self.parents = self.members[:int(retainParents)]
+        # Select other parents randomly to retain
+        unfit = self.members[int(retainParents):]
+        for i in unfit:
+            if self.randRetain > numpy.random.rand():
+                self.parents.append(i)
+
+    """
+    crossover
+    ----------------------------------------
+    Generates next generation of children
+    ----------------------------------------
+    self
+    ----------------------------------------
+    return:
+    ----------------------------------------
+    Use: pop.crossover()
+    """
+    def crossover(self):
+        numChildren = self.size - len(self.parents)  # Replace all non-parents
+        children = []
+        if len(self.parents) > 0:
+            while len(children) < numChildren:
+                p1 = random.choice(self.parents)
+                p2 = random.choice(self.parents)  # Choose 2 random parents
+                if p1 != p2:  # Cant be the same parent
+                    # Try to implement without use of zip
+                    child_numbers = [random.choice(pixel_pair) for pixel_pair in zip(p1.data, p2.data)]
+                    child = Member(child_numbers)
+                    # child = self.cross_help(p1, p2)  # Create crossover of parents as child
+                    children.append(child)
+            self.members = self.parents + children
+
+    """
+    next_gen
+    ----------------------------------------
+    Selects parents, generates children, reset parent and child lists
+    ----------------------------------------
+    self
+    ----------------------------------------
+    return:
+    ----------------------------------------
+    Use: pop.next_gen()
+    """
+    def next_gen(self):
+        self.select_parents()
+        self.crossover()
+        self.parents = []
+        self.children = []
+
+    """
+    sort_members
+    -------------------------------------
+    mutates member list to sort by fitness
+    -------------------------------------
+    self
+    -------------------------------------
+    returns:
+    -------------------------------------
+    Use: pop.sort_members()
+    """
+    def sort_members(self):
+        # Sort members by fitness, reverse list so most fit is first
+        # Only works with reversed and reverse=True, idk why currently
+        self.members = list(reversed(sorted(self.members, key=lambda k: k.evaluate_fitness(), reverse=True)))
+        # self.members.sort(key=lambda k: k.evaluate_fitness(), reverse=False)
