@@ -31,7 +31,7 @@ class Member:
     """
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
-        # Bit flip
+        # Change random data to value between lower and upper bounds
         self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
 
     """
@@ -181,7 +181,7 @@ class Population:
                 p2 = random.choice(self.parents)  # Choose 2 random parents
                 if p1 != p2:  # Cant be the same parent
                     # Try to implement without use of zip
-                    child_numbers = [random.choice(pixel_pair) for pixel_pair in zip(p1.data, p2.data)]
+                    child_numbers = [random.choice(parent) for parent in zip(p1.data, p2.data)]
                     child = Member(child_numbers)
                     # child = self.cross_help(p1, p2)  # Create crossover of parents as child
                     children.append(child)
