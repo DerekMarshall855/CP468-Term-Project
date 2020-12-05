@@ -3,17 +3,19 @@ from genetic_algorithm import *
 import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
-GENS = 5000
-PLOT = False
+GENS = 2000
+PLOT = True
+EVALTYPE = 3  # 0 - standard, 1 - dejong, 2 - rosenbrock, 3 - himmelblau
 
-populationSize = 1000
+populationSize = 50
 mutateProb = 0.01
 retain = 0.1
 randRetain = 0.03
-lowBound = -5.12
-highBound = 5.12
+lowBound = -4
+highBound = 4
 
-pop = Population(size=populationSize,
+pop = Population(evalType=EVALTYPE,
+                 size=populationSize,
                  mutationProb=mutateProb,
                  retain=retain,
                  randRetain=randRetain,
