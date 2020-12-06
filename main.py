@@ -3,14 +3,14 @@ from genetic_algorithm import *
 import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
-GENS = 5000
+GENS = 2000
 PLOT = True
 
-populationSize = 1000
+populationSize = 50
 mutateProb = 0.01
 retain = 0.1
 randRetain = 0.03
-lowBound = -1
+lowBound = 0
 highBound = 1
 
 pop = Population(size=populationSize,
@@ -27,6 +27,9 @@ for i in range(GENS):
     if pop.onTarget:
         print("Finished at gen: ", i, ", Avg Population Fitness: ", pop.history[-1])
         break
+
+if not pop.onTarget:
+    print("Algorithm finished without solution, showing graph...")
 
 if PLOT:
     print("Showing fitness history graph")
