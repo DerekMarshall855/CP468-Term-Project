@@ -2,7 +2,7 @@ import random
 import numpy
 
 TARGET_FITNESS = 0
-MEM_SIZE = 30
+MEM_SIZE = 50
 
 
 class Member:
@@ -12,8 +12,7 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-
-    def __init__(self, data=None, mutationProb=0.01, lowBound=1, highBound=10):
+    def __init__(self, data=None, mutationProb=0.01, lowBound=-1, highBound=1):
         self.lowBound = lowBound
         self.highBound = highBound
         if data is not None:  # If given data, set data and perform mutation
@@ -22,11 +21,8 @@ class Member:
                 self.mutate()
         else:  # Otherwise generate data for member
             # Create list of MEM_SIZE with val between lower and upper bounds
-            # self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
-
-            # below is used for f(x,y) format of data
-            self.data = [numpy.random.randint(lowBound, highBound + 1, size=MEM_SIZE),
-                         numpy.random.randint(lowBound, highBound + 1, size=MEM_SIZE)]
+            value = [self.highBound, self.lowBound]
+            self.data = numpy.random.choice(value, size=MEM_SIZE)
 
     """
     mutate
@@ -40,11 +36,13 @@ class Member:
     USE:
         member.mutate()
     """
-
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
-        self.data[i] = numpy.random.randint(self.lowBound, self.highBound + 1)
+        if self.data[i] == 1:
+            self.data[i] == -1
+        else:
+            self.data[i] = 1;
 
     """
        evaluate_fitness
@@ -61,21 +59,8 @@ class Member:
         OR:
             pop.members[i].evaluate_fitness()
     """
-
     def evaluate_fitness(self):
-        # orginal function
-        # return abs(TARGET_FITNESS - self.sum_data())
-
-        # return self.sum_data() * self.sum_data() # this is the De Jong's function
-
-        # Rosenbrock function
-        # return (1 - self.sum_data()[0])*(1 - self.sum_data()[0]) +\
-        # 100*(self.sum_data()[1]-(self.sum_data()[0]*(self.sum_data()[0])))*(self.sum_data()[1]-(self.sum_data()[0]*self.sum_data()[0]))
-
-        # Himmelblau function
-        return ((self.sum_data()[0]*self.sum_data()[0])+self.sum_data()[1]-11)*((self.sum_data()[0]*self.sum_data()[0])+self.sum_data()[1]-11) +\
-                ((self.sum_data()[1] * self.sum_data()[1]) + self.sum_data()[0] - 7)*((self.sum_data()[1] * self.sum_data()[1]) + self.sum_data()[0] - 7)
-
+        return abs(TARGET_FITNESS - self.sum_data())
 
     """
     sum_data
@@ -90,7 +75,6 @@ class Member:
     USE:
         fit = mem.sum_data()
     """
-
     def sum_data(self):
         dSum = 0
         for i in self.data:
@@ -110,7 +94,6 @@ class Member:
     USE:
         flag = self.compare_fitness(other)
     """
-
     def compare_fitness(self, other):
         return self.evaluate_fitness() < other.evaluate_fitness()
 
@@ -122,8 +105,7 @@ class Population:
     Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
     onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
     """
-
-    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
+    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=-1, high=1):
         self.size = size
         self.mutationProb = mutationProb
         self.retain = retain
@@ -149,7 +131,6 @@ class Population:
     USE:
         pop.print_data()
     """
-
     def print_data(self):
         self.sort_members()
         print(self.members[0].data)
@@ -164,13 +145,12 @@ class Population:
     ----------------------------------------
     Use: avg = pop.avg_fitness()
     """
-
     def avg_fitness(self, gen=None):
         fitSum = 0
         for i in self.members:
             fitSum += i.evaluate_fitness()
 
-        avgFit = fitSum / self.size
+        avgFit = fitSum/self.size
         self.history.append(avgFit)
 
         if int(round(avgFit)) == 0:
@@ -195,7 +175,6 @@ class Population:
     ----------------------------------------
     Use: pop.select_parents()
     """
-
     def select_parents(self):
         # Sort members by fitness (reverse order aka: most fit at index 0)
         self.sort_members()
@@ -219,7 +198,6 @@ class Population:
     ----------------------------------------
     Use: pop.crossover()
     """
-
     def crossover(self):
         numChildren = self.size - len(self.parents)  # Replace all non-parents
         children = []
@@ -244,7 +222,6 @@ class Population:
     ----------------------------------------
     Use: pop.next_gen()
     """
-
     def next_gen(self):
         self.select_parents()
         self.crossover()
@@ -262,7 +239,6 @@ class Population:
     -------------------------------------
     Use: pop.sort_members()
     """
-
     def sort_members(self):
         # Sort members by fitness, reverse list so most fit is first
         # Only works with reversed and reverse=True, idk why currently
@@ -283,7 +259,6 @@ class Population:
     USE:
         newChild = self.create_child(p1, p2)
     """
-
     @staticmethod
     def create_child(p1, p2):
         dataLen = len(p1.data)
