@@ -5,17 +5,15 @@ import matplotlib.pyplot as plt
 # Max number of breed calls until giving up/settling (Settle at local max/min)
 GENS = 2000
 PLOT = True
-EVALTYPE = 3  # 0 - standard, 1 - dejong, 2 - rosenbrock, 3 - himmelblau
 
 populationSize = 50
 mutateProb = 0.01
 retain = 0.1
 randRetain = 0.03
-lowBound = -4
-highBound = 4
+lowBound = 0
+highBound = 1
 
-pop = Population(evalType=EVALTYPE,
-                 size=populationSize,
+pop = Population(size=populationSize,
                  mutationProb=mutateProb,
                  retain=retain,
                  randRetain=randRetain,
@@ -29,6 +27,9 @@ for i in range(GENS):
     if pop.onTarget:
         print("Finished at gen: ", i, ", Avg Population Fitness: ", pop.history[-1])
         break
+
+if not pop.onTarget:
+    print("Algorithm finished without solution, showing graph...")
 
 if PLOT:
     print("Showing fitness history graph")

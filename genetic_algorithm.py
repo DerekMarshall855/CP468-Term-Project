@@ -38,7 +38,13 @@ class Member:
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
-        self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
+        if self.lowBound != 0 or self.highBound != 1:
+            self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
+        else:
+            if self.data[i] == 0:
+                self.data[i] = 1
+            else:
+                self.data[i] = 0
 
     """
        evaluate_fitness
