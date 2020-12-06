@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
 GENS = 5000
-PLOT = False
+PLOT = True
 
 populationSize = 1000
 mutateProb = 0.01
 retain = 0.1
 randRetain = 0.03
-lowBound = -5.12
-highBound = 5.12
+lowBound = -1
+highBound = 1
 
 pop = Population(size=populationSize,
                  mutationProb=mutateProb,

@@ -2,7 +2,7 @@ import random
 import numpy
 
 TARGET_FITNESS = 0
-MEM_SIZE = 30
+MEM_SIZE = 50
 
 
 class Member:
@@ -12,7 +12,7 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-    def __init__(self, data=None, mutationProb=0.01, lowBound=0, highBound=1):
+    def __init__(self, data=None, mutationProb=0.01, lowBound=-1, highBound=1):
         self.lowBound = lowBound
         self.highBound = highBound
         if data is not None:  # If given data, set data and perform mutation
@@ -21,7 +21,8 @@ class Member:
                 self.mutate()
         else:  # Otherwise generate data for member
             # Create list of MEM_SIZE with val between lower and upper bounds
-            self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
+            value = [self.highBound, self.lowBound]
+            self.data = numpy.random.choice(value, size=MEM_SIZE)
 
     """
     mutate
@@ -38,7 +39,10 @@ class Member:
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
-        self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
+        if self.data[i] == 1:
+            self.data[i] == -1
+        else:
+            self.data[i] = 1;
 
     """
        evaluate_fitness
@@ -101,7 +105,7 @@ class Population:
     Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
     onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
     """
-    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
+    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=-1, high=1):
         self.size = size
         self.mutationProb = mutationProb
         self.retain = retain
