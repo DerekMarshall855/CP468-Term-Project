@@ -1,8 +1,8 @@
 import random
 import numpy
 
-TARGET_FITNESS = 7
-MEM_SIZE = 15
+TARGET_FITNESS = 0
+MEM_SIZE = 30
 
 
 class Member:
@@ -12,25 +12,16 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-    def __init__(self, evalType=0, data=None, mutationProb=0.01, lowBound=0, highBound=1):
+    def __init__(self, data=None, mutationProb=0.01, lowBound=0, highBound=1):
         self.lowBound = lowBound
         self.highBound = highBound
-        self.evalType = evalType
-        if self.evalType < 2:
-            if data is not None:  # If given data, set data and perform mutation
-                self.data = data
-                if mutationProb > numpy.random.rand():
-                    self.mutate()
-            else:  # Otherwise generate data for member
-                # Create list of MEM_SIZE with val between lower and upper bounds
-                self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
-        else:
-            if data is not None:
-                self.data = data  # Should be in from (x, y)
-                if mutationProb > numpy.random.rand():
-                    self.mutate()  # Unsure if use this here
-            else:  # Creates data in the form (x, y)
-                self.data = [numpy.random.randint(lowBound, highBound+1), numpy.random.randint(lowBound, highBound+1)]
+        if data is not None:  # If given data, set data and perform mutation
+            self.data = data
+            if mutationProb > numpy.random.rand():
+                self.mutate()
+        else:  # Otherwise generate data for member
+            # Create list of MEM_SIZE with val between lower and upper bounds
+            self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
 
     """
     mutate
@@ -45,15 +36,9 @@ class Member:
         member.mutate()
     """
     def mutate(self):
-        if self.evalType < 2:
-            i = numpy.random.randint(len(self.data) - 1)  # Select random index
-            # Change random data to value between lower and upper bounds
-            self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
-        else:
-            if numpy.random.randint(0, 2) == 0:
-                self.data[0] = numpy.random.randint(self.lowBound, self.highBound+1)
-            else:
-                self.data[1] = numpy.random.randint(self.lowBound, self.highBound + 1)
+        i = numpy.random.randint(len(self.data) - 1)  # Select random index
+        # Change random data to value between lower and upper bounds
+        self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
 
     """
        evaluate_fitness
@@ -71,19 +56,7 @@ class Member:
             pop.members[i].evaluate_fitness()
     """
     def evaluate_fitness(self):
-        if self.evalType == 0:
-            return abs(TARGET_FITNESS - self.sum_data())
-        elif self.evalType == 1:
-            # DeJong:
-            return self.sum_data() ** 2
-        elif self.evalType == 2:
-            # Rosenbrock:
-            # f(x,y) = (1 - x)**2 + 100*(y-x**2)**2
-            return (1 - self.data[0])**2 + 100*(self.data[1] - self.data[0]**2)**2
-        elif self.evalType == 3:
-            # Himmelblau:
-            # f(x,y) = (x**2 + y - 11)**2 + (x + y**2 - 7)**2
-            return ((self.data[0]**2 + self.data[1]) - 11)**2 + ((self.data[0] + self.data[1]**2) - 7)**2
+        return abs(TARGET_FITNESS - self.sum_data())
 
     """
     sum_data
@@ -100,12 +73,8 @@ class Member:
     """
     def sum_data(self):
         dSum = 0
-        if self.evalType == 0:
-            for i in self.data:
-                dSum += i
-        else:
-            for i in self.data:
-                dSum += i ** 2
+        for i in self.data:
+            dSum += i
         return dSum
 
     """
@@ -132,9 +101,8 @@ class Population:
     Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
     onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
     """
-    def __init__(self, evalType=0, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
+    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
         self.size = size
-        self.evalType = evalType
         self.mutationProb = mutationProb
         self.retain = retain
         self.randRetain = randRetain
@@ -145,11 +113,7 @@ class Population:
 
         self.members = []
         for i in range(size):  # Create size members with random data, mutationProb chance of mutating
-            self.members.append(Member(evalType=self.evalType,
-                                       data=None,
-                                       mutationProb=self.mutationProb,
-                                       lowBound=low,
-                                       highBound=high))
+            self.members.append(Member(data=None, mutationProb=self.mutationProb, lowBound=low, highBound=high))
 
     """
     print_mem_sol
@@ -293,41 +257,16 @@ class Population:
     """
     @staticmethod
     def create_child(p1, p2):
-        if p1.evalType < 2:
-            dataLen = len(p1.data)
-            crossIndex = random.randint(1, dataLen)
-            c1 = list(p1.data)
-            c2 = list(p2.data)
-            for i in range(crossIndex, dataLen):
-                c1[i], c2[i] = c2[i], c1[i]
+        dataLen = len(p1.data)
+        crossIndex = random.randint(1, dataLen)
+        c1 = list(p1.data)
+        c2 = list(p2.data)
+        for i in range(crossIndex, dataLen):
+            c1[i], c2[i] = c2[i], c1[i]
 
-            c1 = Member(evalType=p1.evalType, data=c1)
-            c2 = Member(evalType=p2.evalType, data=c2)
-            if c1.compare_fitness(c2):
-                return c1
-            else:
-                return c2
+        c1 = Member(c1)
+        c2 = Member(c2)
+        if c1.compare_fitness(c2):
+            return c1
         else:
-            c1 = p1.data
-            c2 = p2.data
-            beta = numpy.random.rand()
-            # USE HAUPT'S METHOD
-            if random.randint(0, 2) == 0:
-                # x is chosen
-                xm = c1[0]
-                xd = c2[0]
-                c1[0] = ((1 - beta) * xm) + (beta * xd)
-                c2[0] = ((1 - beta) * xd) + (beta * xm)
-            else:
-                # y is chosen
-                ym = c1[1]
-                yd = c2[1]
-                c1[1] = ((1 - beta) * ym) + (beta * yd)
-                c2[1] = ((1 - beta) * yd) + (beta * ym)
-            c1 = Member(evalType=p1.evalType, data=c1)
-            c2 = Member(evalType=p2.evalType, data=c2)
-            if c1.compare_fitness(c2):
-                return c1
-            else:
-                return c2
-
+            return c2
