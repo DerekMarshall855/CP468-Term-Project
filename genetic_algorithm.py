@@ -2,7 +2,7 @@ import random
 import numpy
 
 TARGET_FITNESS = 0
-MEM_SIZE = 50
+MEM_SIZE = 58
 
 
 class Member:
@@ -40,7 +40,7 @@ class Member:
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
         if self.data[i] == 1:
-            self.data[i] == -1
+            self.data[i] = -1
         else:
             self.data[i] = 1;
 
