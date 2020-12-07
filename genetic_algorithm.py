@@ -1,9 +1,13 @@
 import random
 import numpy
 from OF_functions import size25of
+from OF_functions import size27of
+from OF_functions import size29of
+from OF_functions import size31of
+from OF_functions import size33of
 
 TARGET_FITNESS = 0
-MEM_SIZE = 51
+MEM_SIZE = 67
 
 
 class Member:
@@ -63,8 +67,11 @@ class Member:
     """
     def evaluate_fitness(self):
         #return abs(TARGET_FITNESS - self.sum_data())
-        a = size25of(self.data)
-        return abs(TARGET_FITNESS - a)
+        #return abs(TARGET_FITNESS - size25of(self.data))
+        #return abs(TARGET_FITNESS - size27of(self.data))
+        #return abs(TARGET_FITNESS - size29of(self.data))
+        #return abs(TARGET_FITNESS - size31of(self.data))
+        return abs(TARGET_FITNESS - size33of(self.data))
 
     """
     sum_data
