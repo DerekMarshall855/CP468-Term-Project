@@ -1,0 +1,52 @@
+all OF are run with these parameters
+GENS = 200
+populationSize = 200
+mutateProb = 0.35
+retain = 0.1      - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.03 - random chance that a non optimal parent will be retained
+
+-------------------
+size25of
+-------------------
+Gen #:  0  avgFitness:  78.46
+Gen #:  5  avgFitness:  42.33
+Gen #:  10  avgFitness:  34.44
+Gen #:  15  avgFitness:  16.58
+Gen #:  20  avgFitness:  13.91
+Gen #:  25  avgFitness:  9.36
+Gen #:  30  avgFitness:  9.85
+Gen #:  35  avgFitness:  10.26
+Gen #:  40  avgFitness:  10.59
+Gen #:  45  avgFitness:  9.68
+Gen #:  50  avgFitness:  9.75
+Gen #:  55  avgFitness:  9.92
+Gen #:  60  avgFitness:  10.13
+Gen #:  65  avgFitness:  9.52
+Gen #:  70  avgFitness:  9.08
+Gen #:  75  avgFitness:  11.86
+Gen #:  80  avgFitness:  9.63
+Gen #:  85  avgFitness:  11.04
+Gen #:  90  avgFitness:  10.35
+Gen #:  95  avgFitness:  9.18
+Gen #:  100  avgFitness:  9.6
+Gen #:  105  avgFitness:  10.68
+Gen #:  110  avgFitness:  10.17
+Gen #:  115  avgFitness:  9.59
+Gen #:  120  avgFitness:  9.28
+Gen #:  125  avgFitness:  9.91
+Gen #:  130  avgFitness:  9.73
+Gen #:  135  avgFitness:  9.72
+Gen #:  140  avgFitness:  9.86
+Gen #:  145  avgFitness:  10.33
+Gen #:  150  avgFitness:  9.97
+Gen #:  155  avgFitness:  10.15
+Gen #:  160  avgFitness:  9.84
+Gen #:  165  avgFitness:  8.99
+Gen #:  170  avgFitness:  11.06
+Gen #:  175  avgFitness:  10.09
+Gen #:  180  avgFitness:  9.47
+Gen #:  185  avgFitness:  10.33
+Gen #:  190  avgFitness:  10.2
+Gen #:  195  avgFitness:  10.01
+Algorithm finished without solution, showing graph...
+----------------------------------------------------------

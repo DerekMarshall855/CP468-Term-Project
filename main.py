@@ -3,14 +3,14 @@ from genetic_algorithm import *
 import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
-GENS = 2000
+GENS = 200
 PLOT = True
 
-populationSize = 50
-mutateProb = 0.01
-retain = 0.1
+populationSize = 200
+mutateProb = 0.15
+retain = 0.25
 randRetain = 0.03
-lowBound = 0
+lowBound = -1
 highBound = 1
 
 pop = Population(size=populationSize,
