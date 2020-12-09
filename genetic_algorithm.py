@@ -1,13 +1,10 @@
 import random
 import numpy
-from OF_functions import size25of
-from OF_functions import size27of
-from OF_functions import size29of
-from OF_functions import size31of
-from OF_functions import size33of
+from OF_functions import *
+
 
 TARGET_FITNESS = 0
-MEM_SIZE = 67
+MEM_SIZE = 20
 
 
 class Member:
@@ -17,10 +14,11 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-    def __init__(self, data=None, mutationProb=0.05, lowBound=-1, highBound=1):
+    def __init__(self, data=None, mutationProb=0.05, lowBound=-1, highBound=1, benchmark=1):
         self.mutationProb = mutationProb
         self.lowBound = lowBound
         self.highBound = highBound
+        self.benchmark = benchmark
         if data is not None:  # If given data, set data and perform mutation
             self.data = data
             if mutationProb > numpy.random.rand():
@@ -67,11 +65,14 @@ class Member:
     """
     def evaluate_fitness(self):
         #return abs(TARGET_FITNESS - self.sum_data())
+        
         #return abs(TARGET_FITNESS - size25of(self.data))
         #return abs(TARGET_FITNESS - size27of(self.data))
         #return abs(TARGET_FITNESS - size29of(self.data))
         #return abs(TARGET_FITNESS - size31of(self.data))
-        return abs(TARGET_FITNESS - size33of(self.data))
+        #return abs(TARGET_FITNESS - size33of(self.data))
+
+        return abs(TARGET_FITNESS - benchmarks(self.data, self.benchmark))
 
     """
     sum_data

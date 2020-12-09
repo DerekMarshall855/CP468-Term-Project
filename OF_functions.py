@@ -134,6 +134,7 @@ def size25of(data):
     # print(of)
     return of
 
+
 def size27of(data):
     M = data
 
@@ -281,6 +282,7 @@ def size27of(data):
             48] + M[48] * M[49] + M[49] * M[50] + M[50] * M[51] + M[51] * M[52] + M[52] * M[53] + M[53] * M[54] + 2)
 
     return of
+
 
 def size29of(data):
     M = data
@@ -450,6 +452,7 @@ def size29of(data):
             55] + M[48] * M[56] + M[49] * M[57] + M[50] * M[58] + 2)
 
     return of
+
 
 def size31of(data):
     M = data
@@ -644,6 +647,7 @@ def size31of(data):
             53] * M[62] + 2)
 
     return of
+
 
 def size33of(data):
     M = data
@@ -852,3 +856,50 @@ def size33of(data):
 
     return of
 
+
+def benchmarks(data, option):
+    M = data
+    of = 0
+
+    if option == 1:
+        for i in M:
+            of += i
+        of = of * of
+    elif option == 2:
+        x = 0
+        y = 0
+        addx = True
+        for i in M:
+            if addx:
+                x += i
+                addx = False
+            else:
+                y += i
+                addx = True
+
+        of = (1-x)*(1-x)+100*((y-x*x)*(y-x*x))
+    elif option == 3:
+        x=0
+        y=0
+        addx = True
+        for i in M:
+            if addx:
+                x+=i
+                addx=False
+            else:
+                y+=i
+                addx=True
+
+        of =(x*x+y-11)*(x*x+y-11) + (x+y*y-7)*(x+y*y-7)
+    elif option == 4:
+        of = size25of(data)
+    elif option == 5:
+        of = size27of(data)
+    elif option == 6:
+        of = size29of(data)
+    elif option == 7:
+        of = size31of(data)
+    elif option == 8:
+        of = size33of(data)
+
+    return of

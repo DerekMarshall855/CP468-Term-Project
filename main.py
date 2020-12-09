@@ -3,15 +3,16 @@ from genetic_algorithm import *
 import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
-GENS = 200
+GENS = 300
 PLOT = True
 
-populationSize = 200
+populationSize = 20000
 mutateProb = 0.15
 retain = 0.25
 randRetain = 0.03
 lowBound = -1
 highBound = 1
+benchmark = 4
 
 pop = Population(size=populationSize,
                  mutationProb=mutateProb,
@@ -19,6 +20,7 @@ pop = Population(size=populationSize,
                  randRetain=randRetain,
                  low=lowBound,
                  high=highBound)
+                 #benchmark=benchmark) wouldnt work for some reason but it works if changed in genetic_algorithm
 
 for i in range(GENS):
     pop.avg_fitness(gen=i)
