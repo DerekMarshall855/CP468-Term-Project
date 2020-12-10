@@ -1,10 +1,8 @@
+from OF_functions import *
 import random
 import numpy
-from OF_functions import *
-
 
 TARGET_FITNESS = 0
-MEM_SIZE = 20
 
 
 class Member:
@@ -14,19 +12,27 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-    def __init__(self, data=None, mutationProb=0.05, lowBound=-1, highBound=1, benchmark=1):
+    def __init__(self, data=None, mutationProb=0.05, lowBound=-1, highBound=1, benchmark=1, memSize=20, binary=False):
         self.mutationProb = mutationProb
+        self.binary = binary
         self.lowBound = lowBound
         self.highBound = highBound
         self.benchmark = benchmark
+        self.memSize = memSize
         if data is not None:  # If given data, set data and perform mutation
             self.data = data
             if mutationProb > numpy.random.rand():
                 self.mutate()
         else:  # Otherwise generate data for member
             # Create list of MEM_SIZE with val between lower and upper bounds
-            value = [self.highBound, self.lowBound]
-            self.data = numpy.random.choice(value, size=MEM_SIZE)
+            if self.binary:
+                value = [self.highBound, self.lowBound]
+                self.data = numpy.random.choice(value, size=self.memSize)
+            else:
+                self.data = []
+                for i in range(self.memSize):
+                    x = round(random.uniform(self.lowBound, self.highBound), 2)
+                    self.data.append(x)
 
     """
     mutate
@@ -43,10 +49,13 @@ class Member:
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
-        if self.data[i] == 1:
-            self.data[i] = -1
+        if self.binary:
+            if self.data[i] == self.lowBound:
+                self.data[i] = self.highBound
+            else:
+                self.data[i] = self.lowBound
         else:
-            self.data[i] = 1;
+            self.data[i] = round(random.uniform(self.highBound, self.lowBound), 2)
 
     """
        evaluate_fitness
@@ -64,14 +73,7 @@ class Member:
             pop.members[i].evaluate_fitness()
     """
     def evaluate_fitness(self):
-        #return abs(TARGET_FITNESS - self.sum_data())
-        
-        #return abs(TARGET_FITNESS - size25of(self.data))
-        #return abs(TARGET_FITNESS - size27of(self.data))
-        #return abs(TARGET_FITNESS - size29of(self.data))
-        #return abs(TARGET_FITNESS - size31of(self.data))
-        #return abs(TARGET_FITNESS - size33of(self.data))
-
+        # Some benchmarks have minimum MEMSIZE, listed in Main
         return abs(TARGET_FITNESS - benchmarks(self.data, self.benchmark))
 
     """
@@ -119,8 +121,11 @@ class Population:
     Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
     onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
     """
-    def __init__(self, size=10, mutationProb=0.05, retain=0.1, randRetain=0.03, low=-1, high=1):
+    def __init__(self, size=10, mutationProb=0.05, retain=0.1, randRetain=0.03, low=-1, high=1, of=1, memSize=30, binary=False):
         self.size = size
+        self.binary = binary
+        self.of = of
+        self.memSize = memSize
         self.mutationProb = mutationProb
         self.retain = retain
         self.randRetain = randRetain
@@ -131,7 +136,13 @@ class Population:
 
         self.members = []
         for i in range(size):  # Create size members with random data, mutationProb chance of mutating
-            self.members.append(Member(data=None, mutationProb=self.mutationProb, lowBound=low, highBound=high))
+            self.members.append(Member(data=None,
+                                       mutationProb=self.mutationProb,
+                                       lowBound=low,
+                                       highBound=high,
+                                       benchmark=of,
+                                       memSize=memSize,
+                                       binary=binary))
 
     """
     print_mem_sol
@@ -161,12 +172,23 @@ class Population:
     """
     def avg_fitness(self, gen=None):
         fitSum = 0
+        a = 5
         for i in self.members:
-            fitSum += i.evaluate_fitness()
+            a = i.evaluate_fitness()
+            fitSum += a
+            if a == 0:
+                # a = 0 iff member i is a solution
+                break
 
         avgFit = fitSum/self.size
         self.history.append(avgFit)
 
+        if a == 0:
+            # If we find the solution in a single member we are done, print solution
+            self.onTarget = True
+            print("A solution has been found in one member:")
+            self.print_data()
+            return 0
         if int(round(avgFit)) == 0:
             self.onTarget = True
             print("Member with best fitness: ", end="")
@@ -174,8 +196,7 @@ class Population:
 
         if gen is not None:
             if gen % 10 == 0:  # Check status every 10 generations
-                print("Gen #: ", gen, " avgFitness: ", avgFit)
-
+                print("Gen #: ", gen, " avgFitness: ", round(avgFit, 2))
 
         return avgFit
 
@@ -243,8 +264,6 @@ class Population:
         self.parents = []
         self.children = []
 
-
-
     """
     sort_members
     -------------------------------------
@@ -285,9 +304,8 @@ class Population:
         for i in range(crossIndex, dataLen):
             c1[i], c2[i] = c2[i], c1[i]
 
-
-        c1 = Member(data=c1,mutationProb=p1.mutationProb)
-        c2 = Member(data=c2,mutationProb=p1.mutationProb)
+        c1 = Member(data=c1, mutationProb=p1.mutationProb, benchmark=p1.benchmark, memSize=p1.memSize, binary=p1.binary)
+        c2 = Member(data=c2, mutationProb=p2.mutationProb, benchmark=p2.benchmark, memSize=p2.memSize, binary=p2.binary)
         if c1.compare_fitness(c2):
             return c1
         else:

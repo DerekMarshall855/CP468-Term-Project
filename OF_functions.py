@@ -862,10 +862,12 @@ def benchmarks(data, option):
     of = 0
 
     if option == 1:
+        # DeJongs Function
         for i in M:
             of += i
         of = of * of
     elif option == 2:
+        # Rosenbrock's Valley
         x = 0
         y = 0
         addx = True
@@ -877,20 +879,21 @@ def benchmarks(data, option):
                 y += i
                 addx = True
 
-        of = (1-x)*(1-x)+100*((y-x*x)*(y-x*x))
+        of = (1 - x)**2 + 100 * (y - x * x)**2
     elif option == 3:
-        x=0
-        y=0
+        # Himmelblau Function
+        x = 0
+        y = 0
         addx = True
         for i in M:
             if addx:
-                x+=i
-                addx=False
+                x += i
+                addx = False
             else:
-                y+=i
-                addx=True
+                y += i
+                addx = True
 
-        of =(x*x+y-11)*(x*x+y-11) + (x+y*y-7)*(x+y*y-7)
+        of = (x**2 + y - 11)**2 + (x + y**2 - 7)**2
     elif option == 4:
         of = size25of(data)
     elif option == 5:

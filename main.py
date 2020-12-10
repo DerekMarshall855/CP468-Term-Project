@@ -7,20 +7,24 @@ GENS = 300
 PLOT = True
 
 populationSize = 20000
-mutateProb = 0.15
-retain = 0.25
+mutateProb = 0.05
+retain = 0.15
 randRetain = 0.03
 lowBound = -1
 highBound = 1
-benchmark = 4
+benchmark = 4  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 51  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True  # If True low and high bound are binary (Each value is one or the other), else not binary
 
 pop = Population(size=populationSize,
                  mutationProb=mutateProb,
                  retain=retain,
                  randRetain=randRetain,
                  low=lowBound,
-                 high=highBound)
-                 #benchmark=benchmark) wouldnt work for some reason but it works if changed in genetic_algorithm
+                 high=highBound,
+                 of=benchmark,
+                 memSize=memSize,
+                 binary=binary)
 
 for i in range(GENS):
     pop.avg_fitness(gen=i)
