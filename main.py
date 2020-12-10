@@ -13,8 +13,8 @@ retain = 0.15
 randRetain = 0.03
 lowBound = -1
 highBound = 1
-benchmark = 1  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
-memSize = 10  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+benchmark = 5  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 55  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
 binary = True  # If True low and high bound are binary (Each value is one or the other), else not binary
 
 pop = Population(size=populationSize,
@@ -41,6 +41,8 @@ for i in range(GENS):
 
 if not pop.onTarget:
     print("Algorithm finished without solution, showing graph...")
+    runtime = time.time() - start
+    print("runtime: %.3f minutes" % (runtime / 60))
 
 if PLOT:
     print("Showing fitness history graph")
