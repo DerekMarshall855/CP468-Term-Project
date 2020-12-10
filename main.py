@@ -3,15 +3,16 @@ from genetic_algorithm import *
 import matplotlib.pyplot as plt
 
 # Max number of breed calls until giving up/settling (Settle at local max/min)
-GENS = 5000
-PLOT = False
+GENS = 300
+PLOT = True
 
-populationSize = 1000
-mutateProb = 0.01
-retain = 0.1
+populationSize = 20000
+mutateProb = 0.15
+retain = 0.25
 randRetain = 0.03
-lowBound = -5.12
-highBound = 5.12
+lowBound = -1
+highBound = 1
+benchmark = 4
 
 pop = Population(size=populationSize,
                  mutationProb=mutateProb,
@@ -19,6 +20,7 @@ pop = Population(size=populationSize,
                  randRetain=randRetain,
                  low=lowBound,
                  high=highBound)
+                 #benchmark=benchmark) wouldnt work for some reason but it works if changed in genetic_algorithm
 
 for i in range(GENS):
     pop.avg_fitness(gen=i)
@@ -27,6 +29,9 @@ for i in range(GENS):
     if pop.onTarget:
         print("Finished at gen: ", i, ", Avg Population Fitness: ", pop.history[-1])
         break
+
+if not pop.onTarget:
+    print("Algorithm finished without solution, showing graph...")
 
 if PLOT:
     print("Showing fitness history graph")

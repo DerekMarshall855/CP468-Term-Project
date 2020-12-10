@@ -1,8 +1,10 @@
 import random
 import numpy
+from OF_functions import *
+
 
 TARGET_FITNESS = 0
-MEM_SIZE = 30
+MEM_SIZE = 20
 
 
 class Member:
@@ -12,16 +14,19 @@ class Member:
     Takes data, mutationProb, lowBound, HighBound to create Member of Population, randomly mutates member
     ---------------------------
     """
-    def __init__(self, data=None, mutationProb=0.01, lowBound=0, highBound=1):
+    def __init__(self, data=None, mutationProb=0.05, lowBound=-1, highBound=1, benchmark=1):
+        self.mutationProb = mutationProb
         self.lowBound = lowBound
         self.highBound = highBound
+        self.benchmark = benchmark
         if data is not None:  # If given data, set data and perform mutation
             self.data = data
             if mutationProb > numpy.random.rand():
                 self.mutate()
         else:  # Otherwise generate data for member
             # Create list of MEM_SIZE with val between lower and upper bounds
-            self.data = numpy.random.randint(lowBound, highBound+1, size=MEM_SIZE)
+            value = [self.highBound, self.lowBound]
+            self.data = numpy.random.choice(value, size=MEM_SIZE)
 
     """
     mutate
@@ -38,7 +43,10 @@ class Member:
     def mutate(self):
         i = numpy.random.randint(len(self.data) - 1)  # Select random index
         # Change random data to value between lower and upper bounds
-        self.data[i] = numpy.random.randint(self.lowBound, self.highBound+1)
+        if self.data[i] == 1:
+            self.data[i] = -1
+        else:
+            self.data[i] = 1;
 
     """
        evaluate_fitness
@@ -56,7 +64,15 @@ class Member:
             pop.members[i].evaluate_fitness()
     """
     def evaluate_fitness(self):
-        return abs(TARGET_FITNESS - self.sum_data())
+        #return abs(TARGET_FITNESS - self.sum_data())
+        
+        #return abs(TARGET_FITNESS - size25of(self.data))
+        #return abs(TARGET_FITNESS - size27of(self.data))
+        #return abs(TARGET_FITNESS - size29of(self.data))
+        #return abs(TARGET_FITNESS - size31of(self.data))
+        #return abs(TARGET_FITNESS - size33of(self.data))
+
+        return abs(TARGET_FITNESS - benchmarks(self.data, self.benchmark))
 
     """
     sum_data
@@ -91,7 +107,9 @@ class Member:
         flag = self.compare_fitness(other)
     """
     def compare_fitness(self, other):
-        return self.evaluate_fitness() < other.evaluate_fitness()
+        a = self.evaluate_fitness()
+        b = other.evaluate_fitness()
+        return a < b
 
 
 class Population:
@@ -101,7 +119,7 @@ class Population:
     Creates pop with size, mutate probability, list of Members, parent list, child list, fitness history
     onTarget boolean (false if not at target avgFitness), retain (% of generation to keep), randRetain
     """
-    def __init__(self, size=10, mutationProb=0.01, retain=0.1, randRetain=0.03, low=0, high=1):
+    def __init__(self, size=10, mutationProb=0.05, retain=0.1, randRetain=0.03, low=-1, high=1):
         self.size = size
         self.mutationProb = mutationProb
         self.retain = retain
@@ -157,6 +175,7 @@ class Population:
         if gen is not None:
             if gen % 10 == 0:  # Check status every 10 generations
                 print("Gen #: ", gen, " avgFitness: ", avgFit)
+
 
         return avgFit
 
@@ -224,6 +243,8 @@ class Population:
         self.parents = []
         self.children = []
 
+
+
     """
     sort_members
     -------------------------------------
@@ -264,8 +285,9 @@ class Population:
         for i in range(crossIndex, dataLen):
             c1[i], c2[i] = c2[i], c1[i]
 
-        c1 = Member(c1)
-        c2 = Member(c2)
+
+        c1 = Member(data=c1,mutationProb=p1.mutationProb)
+        c2 = Member(data=c2,mutationProb=p1.mutationProb)
         if c1.compare_fitness(c2):
             return c1
         else:

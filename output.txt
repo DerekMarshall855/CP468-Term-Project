@@ -1,0 +1,129 @@
+all OF are run with these parameters
+GENS = 200
+populationSize = 200
+mutateProb = 0.35
+retain = 0.1      - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.03 - random chance that a non optimal parent will be retained
+
+-------------------
+size25of
+-------------------
+Gen #:  0  avgFitness:  77.78
+Gen #:  10  avgFitness:  31.1
+Gen #:  20  avgFitness:  8.18
+Gen #:  30  avgFitness:  8.11
+Gen #:  40  avgFitness:  8.3
+Gen #:  50  avgFitness:  8.07
+Gen #:  60  avgFitness:  8.42
+Gen #:  70  avgFitness:  8.3
+Gen #:  80  avgFitness:  8.32
+Gen #:  90  avgFitness:  8.25
+Gen #:  100  avgFitness:  8.2
+Gen #:  110  avgFitness:  8.21
+Gen #:  120  avgFitness:  8.4
+Gen #:  130  avgFitness:  8.05
+Gen #:  140  avgFitness:  8.0
+Gen #:  150  avgFitness:  8.27
+Gen #:  160  avgFitness:  8.09
+Gen #:  170  avgFitness:  8.17
+Gen #:  180  avgFitness:  8.27
+Gen #:  190  avgFitness:  8.07
+Algorithm finished without solution, showing graph...
+Algorithm finished without solution, showing graph...
+----------------------------------------------------------
+size27of
+----------------------------------------------------------
+Gen #:  0  avgFitness:  83.64
+Gen #:  10  avgFitness:  18.4
+Gen #:  20  avgFitness:  10.49
+Gen #:  30  avgFitness:  10.21
+Gen #:  40  avgFitness:  10.42
+Gen #:  50  avgFitness:  10.26
+Gen #:  60  avgFitness:  10.08
+Gen #:  70  avgFitness:  10.26
+Gen #:  80  avgFitness:  10.41
+Gen #:  90  avgFitness:  10.32
+Gen #:  100  avgFitness:  10.3
+Gen #:  110  avgFitness:  10.33
+Gen #:  120  avgFitness:  10.23
+Gen #:  130  avgFitness:  10.56
+Gen #:  140  avgFitness:  10.46
+Gen #:  150  avgFitness:  10.84
+Gen #:  160  avgFitness:  10.18
+Gen #:  170  avgFitness:  10.43
+Gen #:  180  avgFitness:  10.18
+Gen #:  190  avgFitness:  10.0
+Algorithm finished without solution, showing graph...
+----------------------------------------------------------
+size29of
+----------------------------------------------------------
+Gen #:  0  avgFitness:  93.45
+Gen #:  10  avgFitness:  45.8
+Gen #:  20  avgFitness:  8.47
+Gen #:  30  avgFitness:  8.35
+Gen #:  40  avgFitness:  8.33
+Gen #:  50  avgFitness:  8.22
+Gen #:  60  avgFitness:  8.22
+Gen #:  70  avgFitness:  8.25
+Gen #:  80  avgFitness:  8.0
+Gen #:  90  avgFitness:  8.07
+Gen #:  100  avgFitness:  8.24
+Gen #:  110  avgFitness:  8.25
+Gen #:  120  avgFitness:  8.11
+Gen #:  130  avgFitness:  8.15
+Gen #:  140  avgFitness:  8.11
+Gen #:  150  avgFitness:  8.51
+Gen #:  160  avgFitness:  8.13
+Gen #:  170  avgFitness:  8.14
+Gen #:  180  avgFitness:  8.0
+Gen #:  190  avgFitness:  8.47
+Algorithm finished without solution, showing graph...
+--------------------------------------------------------------
+size31of
+--------------------------------------------------------------
+Gen #:  0  avgFitness:  106.4
+Gen #:  10  avgFitness:  51.44
+Gen #:  20  avgFitness:  28.1
+Gen #:  30  avgFitness:  20.51
+Gen #:  40  avgFitness:  20.18
+Gen #:  50  avgFitness:  20.1
+Gen #:  60  avgFitness:  20.25
+Gen #:  70  avgFitness:  20.4
+Gen #:  80  avgFitness:  20.48
+Gen #:  90  avgFitness:  20.43
+Gen #:  100  avgFitness:  20.2
+Gen #:  110  avgFitness:  20.51
+Gen #:  120  avgFitness:  20.22
+Gen #:  130  avgFitness:  20.0
+Gen #:  140  avgFitness:  20.4
+Gen #:  150  avgFitness:  20.16
+Gen #:  160  avgFitness:  20.17
+Gen #:  170  avgFitness:  20.21
+Gen #:  180  avgFitness:  20.11
+Gen #:  190  avgFitness:  20.21
+Algorithm finished without solution, showing graph...
+-------------------------------------------------------------
+size33of
+-------------------------------------------------------------
+Gen #:  0  avgFitness:  113.25
+Gen #:  10  avgFitness:  30.78
+Gen #:  20  avgFitness:  24.42
+Gen #:  30  avgFitness:  24.24
+Gen #:  40  avgFitness:  24.26
+Gen #:  50  avgFitness:  24.52
+Gen #:  60  avgFitness:  24.11
+Gen #:  70  avgFitness:  24.28
+Gen #:  80  avgFitness:  24.04
+Gen #:  90  avgFitness:  24.57
+Gen #:  100  avgFitness:  24.79
+Gen #:  110  avgFitness:  24.29
+Gen #:  120  avgFitness:  24.43
+Gen #:  130  avgFitness:  24.59
+Gen #:  140  avgFitness:  24.22
+Gen #:  150  avgFitness:  24.18
+Gen #:  160  avgFitness:  24.35
+Gen #:  170  avgFitness:  24.39
+Gen #:  180  avgFitness:  24.32
+Gen #:  190  avgFitness:  24.46
+Algorithm finished without solution, showing graph...
+------------------------------------------------------------
