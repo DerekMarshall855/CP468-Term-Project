@@ -176,19 +176,19 @@ class Population:
         for i in self.members:
             a = i.evaluate_fitness()
             fitSum += a
-            # if a == 0:
-            #     # a = 0 iff member i is a solution
-            #     break
+            if a == 0:
+                # a = 0 iff member i is a solution
+                break
 
         avgFit = fitSum/self.size
         self.history.append(avgFit)
 
-        # if a == 0:
-        #     # If we find the solution in a single member we are done, print solution
-        #     self.onTarget = True
-        #     print("A solution has been found in one member:")
-        #     self.print_data()
-        #     return 0
+        if a == 0:
+            # If we find the solution in a single member we are done, print solution
+            self.onTarget = True
+            print("A solution has been found in one member:")
+            self.print_data()
+            return 0
         if int(round(avgFit)) == 0:
             self.onTarget = True
             print("Member with best fitness: ", end="")
