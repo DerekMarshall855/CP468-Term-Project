@@ -1,129 +1,169 @@
-all OF are run with these parameters
-GENS = 200
-populationSize = 200
-mutateProb = 0.35
-retain = 0.1      - % of the population that is guaranteed to be retained to be parents to the next generation
-randRetain = 0.03 - random chance that a non optimal parent will be retained
+------------------------------------------------------------
+DeJongs
+------------------------------------------------------------
+Parameters used:
+populationSize = 5000
+mutateProb = 0.2
+retain = 0.15
+randRetain = 0.05
+lowBound = -5.12
+highBound = 5.12
+benchmark = 1  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 20  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = False
+
+
+Gen #:  0  avgFitness:  177.11
+Gen #:  10  avgFitness:  26.38
+Gen #:  20  avgFitness:  43.44
+Member with best fitness: [3.77, -1.99, 5.04, -1.16, -2.39, -3.1, 3.28, 3.14, -1.66, 4.08, -3.19, 5.05, 2.68, -3.39, -0.68, 2.85, -0.87, -2.96, -3.42, -5.08]
+Finished at gen:  29 , Avg Population Fitness:  0.24508199999999997
+runtime: 0.031 minutes
+------------------------------------------------------------------
+Rosenbrock
+-------------------------------------------------------------------
+populationSize = 8000
+mutateProb = 0.05
+retain = 0.15
+randRetain = 0.05
+lowBound = -4
+highBound = 4
+benchmark = 2  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 20  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = False
+
+Gen #:  0  avgFitness:  852924.14
+Gen #:  10  avgFitness:  51514.26
+Gen #:  20  avgFitness:  81519.42
+Gen #:  30  avgFitness:  91.14
+Member with best fitness: [1.06, -0.27, -0.56, -2.03, 2.28, 3.06, -2.74, 2.07, -1.9, -1.59, 1.02, 0.47, 1.35, 1.01, 1.98, 1.93, 1.01, -1.08, -2.54, -2.65]
+Finished at gen:  33 , Avg Population Fitness:  0.25836387562500607
+runtime: 0.060 minutes
+------------------------------------------------------------------------------------
+Himmelblau
+----------------------------------------------------------------------------------
+Parameters used:
+populationSize = 8000
+mutateProb = 0.05
+retain = 0.15
+randRetain = 0.05
+lowBound = -4
+highBound = 4
+benchmark = 3  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 20  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = False
+
+Gen #:  0  avgFitness:  14767.5
+Gen #:  10  avgFitness:  761.63
+Member with best fitness: [0.24, -1.89, -2.97, -3.01, 2.68, 3.38, -2.59, -2.92, -3.01, 3.48, 1.18, 2.48, 3.22, 0.8, 0.76, -3.36, 2.87, -0.42, 1.21, -0.39]
+Gen #:  20  avgFitness:  0.27
+Finished at gen:  20 , Avg Population Fitness:  0.27014449514622674
+runtime: 0.042 minutes
 
 -------------------
 size25of
 -------------------
-Gen #:  0  avgFitness:  77.78
-Gen #:  10  avgFitness:  31.1
-Gen #:  20  avgFitness:  8.18
-Gen #:  30  avgFitness:  8.11
-Gen #:  40  avgFitness:  8.3
-Gen #:  50  avgFitness:  8.07
-Gen #:  60  avgFitness:  8.42
-Gen #:  70  avgFitness:  8.3
-Gen #:  80  avgFitness:  8.32
-Gen #:  90  avgFitness:  8.25
-Gen #:  100  avgFitness:  8.2
-Gen #:  110  avgFitness:  8.21
-Gen #:  120  avgFitness:  8.4
-Gen #:  130  avgFitness:  8.05
-Gen #:  140  avgFitness:  8.0
-Gen #:  150  avgFitness:  8.27
-Gen #:  160  avgFitness:  8.09
-Gen #:  170  avgFitness:  8.17
-Gen #:  180  avgFitness:  8.27
-Gen #:  190  avgFitness:  8.07
-Algorithm finished without solution, showing graph...
-Algorithm finished without solution, showing graph...
+Parameters used:
+GENS = 200
+populationSize = 20000
+mutateProb = 0.2
+retain = 0.15     - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.05 - random chance that a non optimal parent will be retained
+lowBound = -1
+highBound = 1
+benchmark = 4  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 51  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True
+
+
+Gen #:  0  avgFitness:  76.82
+A solution has been found in one member:
+[1, -1, -1, 1, 1, 1, -1, -1, -1, 1, 1, 1, -1, 1, -1, -1, -1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, 1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, -1, 1, -1]
+Finished at gen:  3 , Avg Population Fitness:  7.5074
+runtime: 1.428 minutes
 ----------------------------------------------------------
 size27of
 ----------------------------------------------------------
-Gen #:  0  avgFitness:  83.64
-Gen #:  10  avgFitness:  18.4
-Gen #:  20  avgFitness:  10.49
-Gen #:  30  avgFitness:  10.21
-Gen #:  40  avgFitness:  10.42
-Gen #:  50  avgFitness:  10.26
-Gen #:  60  avgFitness:  10.08
-Gen #:  70  avgFitness:  10.26
-Gen #:  80  avgFitness:  10.41
-Gen #:  90  avgFitness:  10.32
-Gen #:  100  avgFitness:  10.3
-Gen #:  110  avgFitness:  10.33
-Gen #:  120  avgFitness:  10.23
-Gen #:  130  avgFitness:  10.56
-Gen #:  140  avgFitness:  10.46
-Gen #:  150  avgFitness:  10.84
-Gen #:  160  avgFitness:  10.18
-Gen #:  170  avgFitness:  10.43
-Gen #:  180  avgFitness:  10.18
-Gen #:  190  avgFitness:  10.0
-Algorithm finished without solution, showing graph...
+Parameters used:
+GENS = 200
+populationSize = 50000
+mutateProb = 0.2
+retain = 0.15     - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.05 - random chance that a non optimal parent will be retained
+lowBound = -1
+highBound = 1
+benchmark = 4  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 55  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True
+
+Gen #:  0  avgFitness:  85.55
+Gen #:  10  avgFitness:  43.97
+A solution has been found in one member:
+[-1, -1, -1, 1, -1, -1, 1, -1, 1, -1, 1, 1, 1, -1, -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, -1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1]
+Finished at gen:  16 , Avg Population Fitness:  14.11252
+runtime: 13.270 minutes
 ----------------------------------------------------------
 size29of
 ----------------------------------------------------------
-Gen #:  0  avgFitness:  93.45
-Gen #:  10  avgFitness:  45.8
-Gen #:  20  avgFitness:  8.47
-Gen #:  30  avgFitness:  8.35
-Gen #:  40  avgFitness:  8.33
-Gen #:  50  avgFitness:  8.22
-Gen #:  60  avgFitness:  8.22
-Gen #:  70  avgFitness:  8.25
-Gen #:  80  avgFitness:  8.0
-Gen #:  90  avgFitness:  8.07
-Gen #:  100  avgFitness:  8.24
-Gen #:  110  avgFitness:  8.25
-Gen #:  120  avgFitness:  8.11
-Gen #:  130  avgFitness:  8.15
-Gen #:  140  avgFitness:  8.11
-Gen #:  150  avgFitness:  8.51
-Gen #:  160  avgFitness:  8.13
-Gen #:  170  avgFitness:  8.14
-Gen #:  180  avgFitness:  8.0
-Gen #:  190  avgFitness:  8.47
-Algorithm finished without solution, showing graph...
+Parameters used:
+GENS = 200
+populationSize = 80000
+mutateProb = 0.2
+retain = 0.15     - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.05 - random chance that a non optimal parent will be retained
+lowBound = -1
+highBound = 1
+benchmark = 6  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 59  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True
+
+Gen #:  0  avgFitness:  94.82
+Gen #:  10  avgFitness:  50.02
+A solution has been found in one member:
+[-1, -1, -1, -1, 1, 1, 1, -1, -1, -1, 1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, -1, 1, 1, -1, 1, -1, 1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1]
+Finished at gen:  15 , Avg Population Fitness:  37.2343
 --------------------------------------------------------------
 size31of
 --------------------------------------------------------------
-Gen #:  0  avgFitness:  106.4
-Gen #:  10  avgFitness:  51.44
-Gen #:  20  avgFitness:  28.1
-Gen #:  30  avgFitness:  20.51
-Gen #:  40  avgFitness:  20.18
-Gen #:  50  avgFitness:  20.1
-Gen #:  60  avgFitness:  20.25
-Gen #:  70  avgFitness:  20.4
-Gen #:  80  avgFitness:  20.48
-Gen #:  90  avgFitness:  20.43
-Gen #:  100  avgFitness:  20.2
-Gen #:  110  avgFitness:  20.51
-Gen #:  120  avgFitness:  20.22
-Gen #:  130  avgFitness:  20.0
-Gen #:  140  avgFitness:  20.4
-Gen #:  150  avgFitness:  20.16
-Gen #:  160  avgFitness:  20.17
-Gen #:  170  avgFitness:  20.21
-Gen #:  180  avgFitness:  20.11
-Gen #:  190  avgFitness:  20.21
+Parameters used:
+GENS = 30
+populationSize = 200000
+mutateProb = 0.2
+retain = 0.15     - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.05 - random chance that a non optimal parent will be retained
+lowBound = -1
+highBound = 1
+benchmark = 7  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 63  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True
+
+Gen #:  0  avgFitness:  104.42
+Gen #:  5  avgFitness:  61.68
+Gen #:  10  avgFitness:  56.31
+Gen #:  15  avgFitness:  52.96
+Gen #:  20  avgFitness:  45.8
+Gen #:  25  avgFitness:  33.28
 Algorithm finished without solution, showing graph...
+runtime: 137.163 minutes
 -------------------------------------------------------------
 size33of
 -------------------------------------------------------------
-Gen #:  0  avgFitness:  113.25
-Gen #:  10  avgFitness:  30.78
-Gen #:  20  avgFitness:  24.42
-Gen #:  30  avgFitness:  24.24
-Gen #:  40  avgFitness:  24.26
-Gen #:  50  avgFitness:  24.52
-Gen #:  60  avgFitness:  24.11
-Gen #:  70  avgFitness:  24.28
-Gen #:  80  avgFitness:  24.04
-Gen #:  90  avgFitness:  24.57
-Gen #:  100  avgFitness:  24.79
-Gen #:  110  avgFitness:  24.29
-Gen #:  120  avgFitness:  24.43
-Gen #:  130  avgFitness:  24.59
-Gen #:  140  avgFitness:  24.22
-Gen #:  150  avgFitness:  24.18
-Gen #:  160  avgFitness:  24.35
-Gen #:  170  avgFitness:  24.39
-Gen #:  180  avgFitness:  24.32
-Gen #:  190  avgFitness:  24.46
+Parameters used:
+GENS = 30
+populationSize = 250000
+mutateProb = 0.2
+retain = 0.15     - % of the population that is guaranteed to be retained to be parents to the next generation
+randRetain = 0.05 - random chance that a non optimal parent will be retained
+lowBound = -1
+highBound = 1
+benchmark = 8  # 1 - DeJongs 2 - Rosenbrocks 3 - Himmelblaus 4 - size25(memSize >=51) 5 - size27(memSize >= 55)
+memSize = 67  # Usually 20 or lower for benchmark 1-3, 4 - 51, 5 - 55, 6 - 59, 7 - 63, 8 - 67
+binary = True
+
+Gen #:  0  avgFitness:  114.11
+Gen #:  10  avgFitness:  63.05
+Gen #:  20  avgFitness:  56.55
 Algorithm finished without solution, showing graph...
-------------------------------------------------------------
+runtime: 123.214 minutes
+
+
